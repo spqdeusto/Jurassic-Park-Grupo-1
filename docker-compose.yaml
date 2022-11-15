@@ -1,0 +1,35 @@
+version: '3.5'
+
+networks:
+  test:
+    name: fastapi_example
+
+
+services:
+  mysql_db:
+    image: mysql:8.0.31
+    container_name: mysql-fastapi
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      - test
+    environment:
+      - MYSQL_DATABASE=mysql_jurasic
+      - MYSQL_USER=admin_db
+      - MYSQL_PASSWORD=admin_db
+      - MYSQL_ROOT_PASSWORD=example
+
+  fastapi:
+    image: fast-api-example:latest
+    container_name: fastapi
+    restart: always
+    ports: 
+      - 8000:8000
+    networks:
+      - test
+    environment:
+      - MYSQL_URL=mysql://admin_db:admin_db@mysql-fastapi:3306/fastapi
+    depends_on:
+      - mysql_db
