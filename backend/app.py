@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from routes.dinosaur import dinosaur
 from routes.enclosure import enclosure
 from routes.truck import truck
+from routes.gender import gender
 
 app = FastAPI(
     title= "Jurassic Park API",
@@ -18,6 +19,10 @@ app = FastAPI(
         {
             "name" : "Trucks",
             "description": "These are the routes of the trucks"
+        },
+        {
+            "name" : "Genders",
+            "description": "These are the routes of the genders"
         }
     ]
 )
@@ -25,3 +30,4 @@ app = FastAPI(
 app.include_router(dinosaur)
 app.include_router(enclosure)
 app.include_router(truck)
+app.include_router(gender)
