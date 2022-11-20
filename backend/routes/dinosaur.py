@@ -11,7 +11,7 @@ def get_dinosaurs():
 
 @dinosaur.post("/dinosaurs", response_model= Dinosaur, tags= ["Dinosaurs"])
 def create_dinosaur(dinosaur: Dinosaur):
-    new_dinosaur = {"id": dinosaur.id, "name": dinosaur.name, "species": dinosaur.species, "age": dinosaur.age, "weight": dinosaur.weight, "gender": dinosaur.gender, "dangerousness": dinosaur.dangerousness}
+    new_dinosaur = {"id": dinosaur.id, "name": dinosaur.name, "species": dinosaur.species, "age": dinosaur.age, "weight": dinosaur.weight, "gender": dinosaur.gender}
     result = conn.execute(dinosaurs.insert().values(new_dinosaur))
     return conn.execute(dinosaurs.select().where(dinosaurs.c.id == result.lastrowid)).first()
 
@@ -30,6 +30,5 @@ def update_dinosaur(id: str, dinosaur: Dinosaur):
     species= dinosaur.species, 
     age= dinosaur.age, 
     weight= dinosaur.weight, 
-    gender= dinosaur.gender, 
-    dangerousness= dinosaur.dangerousness).where(dinosaurs.c.id == id))
+    gender= dinosaur.gender).where(dinosaurs.c.id == id))
     return conn.execute(dinosaurs.select().where(dinosaurs.c.id == id)).first()

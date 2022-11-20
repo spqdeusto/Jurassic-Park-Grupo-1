@@ -11,7 +11,7 @@ def get_enclosures():
 
 @enclosure.post("/enclosures", response_model= Enclosure, tags= ["Enclosures"])
 def create_enclosure(enclosure : Enclosure):
-    new_enclosure = {"id": enclosure.id, "name": enclosure.name, "electricity": enclosure.electricity}
+    new_enclosure = {"id": enclosure.id, "name": enclosure.name, "species": enclosure.species, "electricity": enclosure.electricity}
     result = conn.execute(enclosures.insert().values(new_enclosure))
     return conn.execute(enclosures.select().where(enclosures.c.id == result.lastrowid)).first()
 
@@ -27,5 +27,6 @@ def delete_enclosure(id: str):
 @enclosure.put("/enclosures/update/{id}", response_model= Enclosure, tags= ["Enclosures"])
 def update_enclosure(id: str, enclosure : Enclosure):
     result = conn.execute(enclosures.update().values(name= enclosure.name, 
+    species= enclosure.species,
     electricity= enclosure.electricity).where(enclosures.c.id == id))
     return conn.execute(enclosures.select().where(enclosures.c.id == id)).first()

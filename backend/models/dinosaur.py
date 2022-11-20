@@ -8,7 +8,6 @@ dinosaurs = Table("dinosaurs", meta,
     Column("species", String(255)), 
     Column("age", Integer), 
     Column("weight", Float), 
-    Column("gender", String(255)), 
-    Column("dangerousness", Boolean))
+    Column("gender", String(255)))
 
 meta.create_all(engine)
