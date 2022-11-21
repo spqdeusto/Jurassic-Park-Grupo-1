@@ -16,7 +16,7 @@ Future<List<Species>> getSpecies() async {
   List response = json.decode((await client.get(allSpecies())).body);
 
   for (var species in response) {
-    int id = species['id'];
+    int id = int.parse(species['id']);
     String name = species['name'];
     bool dangerousness = species['dangerousness'];
 
@@ -33,7 +33,7 @@ Future<List<Gender>> getGenders() async {
   List response = json.decode((await client.get(allGenders())).body);
 
   for (var gender in response) {
-    int id = gender['id'];
+    int id = int.parse(gender['id']);
     String name = gender['name'];
 
     gendersList.add(Gender(id, name));
@@ -50,11 +50,13 @@ Future<List<Dinosaur>> getDinosaurs(
   List response = json.decode((await client.get(allDinosaurs())).body);
 
   for (var dinosaur in response) {
-    int id = dinosaur['id'];
+    int id = int.parse(dinosaur['id']);
     String name = dinosaur['name'];
+    //Los id empiezan desde 1, pero las posiciones de una lista desde 0. Por eso, para asignar una especie se resta 1 al id, para obtener su posición en la lista
     Species species = speciesList[dinosaur['species'] - 1];
     int age = dinosaur['age'];
     double weight = dinosaur['weight'];
+    //Los id empiezan desde 1, pero las posiciones de una lista desde 0. Por eso, para asignar un género se resta 1 al id, para obtener su posición en la lista
     Gender gender = gendersList[dinosaur['gender'] - 1];
 
     dinosaurs.add(Dinosaur(

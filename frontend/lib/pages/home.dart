@@ -81,10 +81,10 @@ class _HomeState extends State<Home> {
                             child: generateZone(widget.species[3], 3)),
                         Align(
                             alignment: const Alignment(-0.2, 0.8),
-                            child: generateZone(widget.species[4], 4)),
+                            child: generateZone(widget.species[5], 4)),
                         Align(
                             alignment: const Alignment(0.4, 0),
-                            child: generateZone(widget.species[5], 5)),
+                            child: generateZone(widget.species[6], 5)),
                       ],
                     ),
                   ),
@@ -121,13 +121,25 @@ class _HomeState extends State<Home> {
                   title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'This is the ' + species.name + ' zone',
-                          style: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width /
-                                  2000 *
-                                  38),
-                        ),
+                        species.id != 4
+                            ? Text(
+                                'This is the ' + species.name + ' zone',
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width /
+                                            2000 *
+                                            38),
+                              )
+                            : Text(
+                                'This is the ' +
+                                    species.name +
+                                    ' and Parasaulophus zone',
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width /
+                                            2000 *
+                                            38),
+                              ),
                         Icon(
                           Icons.lock,
                           size: MediaQuery.of(context).size.width / 2000 * 56,
@@ -140,49 +152,99 @@ class _HomeState extends State<Home> {
                       width: MediaQuery.of(context).size.width * 0.3,
                       child: ListView(
                         children: [
-                          for (var dinosaur in widget.dinosaurs)
-                            if (dinosaur.species.name == species.name)
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height /
-                                    1000 *
-                                    80,
-                                child: ListTile(
-                                  leading: SizedBox(
-                                    width: MediaQuery.of(context).size.width /
-                                        2000 *
-                                        64,
-                                    child: Image.asset("icons/$iconRoute"),
-                                  ),
-                                  title: Text(
-                                    dinosaur.name.toUpperCase() +
-                                        ', ' +
-                                        dinosaur.age.toString() +
-                                        ' ages' +
-                                        ' and ' +
-                                        dinosaur.weight.toString() +
-                                        ' kilos',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width /
-                                              2000 *
-                                              24,
+                          if (species.id != 4)
+                            for (var dinosaur in widget.dinosaurs)
+                              if (dinosaur.species.name == species.name)
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height /
+                                      1000 *
+                                      80,
+                                  child: ListTile(
+                                    leading: SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2000 *
+                                          64,
+                                      child: Image.asset("icons/$iconRoute"),
                                     ),
-                                  ),
-                                  trailing: SizedBox(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.05,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: const [
-                                        Icon(Icons.edit),
-                                        Icon(Icons.delete),
-                                      ],
+                                    title: Text(
+                                      dinosaur.name.toUpperCase() +
+                                          ', ' +
+                                          dinosaur.age.toString() +
+                                          ' ages' +
+                                          ' and ' +
+                                          dinosaur.weight.toString() +
+                                          ' kilos',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                2000 *
+                                                24,
+                                      ),
+                                    ),
+                                    trailing: SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.05,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: const [
+                                          Icon(Icons.edit),
+                                          Icon(Icons.delete),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                          if (species.id == 4)
+                            for (var dinosaur in widget.dinosaurs)
+                              if (dinosaur.species.name == species.name ||
+                                  dinosaur.species.name == 'Parasaulophus')
+                                SizedBox(
+                                  height: MediaQuery.of(context).size.height /
+                                      1000 *
+                                      80,
+                                  child: ListTile(
+                                    leading: SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          2000 *
+                                          64,
+                                      child:
+                                          dinosaur.species.name == species.name
+                                              ? Image.asset("icons/$iconRoute")
+                                              : Image.asset(
+                                                  "icons/parasaulophus.png"),
+                                    ),
+                                    title: Text(
+                                      dinosaur.name.toUpperCase() +
+                                          ', ' +
+                                          dinosaur.age.toString() +
+                                          ' ages' +
+                                          ' and ' +
+                                          dinosaur.weight.toString() +
+                                          ' kilos',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize:
+                                            MediaQuery.of(context).size.width /
+                                                2000 *
+                                                24,
+                                      ),
+                                    ),
+                                    trailing: SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.05,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: const [
+                                          Icon(Icons.edit),
+                                          Icon(Icons.delete),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
                         ],
                       ),
                     ),

@@ -10,8 +10,8 @@ def get_species():
     return conn.execute(species.select()).fetchall()
 
 @speciesAPI.post("/species", response_model= Species, tags= ["Species"])
-def create_species(species : Species):
-    new_species = {"id": species.id, "name": species.name, "electricity": species.electricity}
+def create_species(currentSpecies : Species):
+    new_species = {"id": currentSpecies.id, "name": currentSpecies.name, "dangerousness": currentSpecies.dangerousness}
     result = conn.execute(species.insert().values(new_species))
     return conn.execute(species.select().where(species.c.id == result.lastrowid)).first()
 
@@ -25,7 +25,8 @@ def delete_species(id: str):
     return ("deleted species with id = " + id)
 
 @speciesAPI.put("/species/update/{id}", response_model= Species, tags= ["Species"])
-def update_species(id: str, species : Species):
-    result = conn.execute(species.update().values(name= species.name, 
-    electricity= species.electricity).where(species.c.id == id))
+def update_species(id: str, currentSpecies : Species):
+    result = conn.execute(species.update().values(name= currentSpecies.name, 
+    dangerousness= currentSpecies.dangerousness).where(species.c.id == id))
+    
     return conn.execute(species.select().where(species.c.id == id)).first()
