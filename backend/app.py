@@ -31,8 +31,8 @@ app = FastAPI(
             "description": "These are the routes of the alarms"
         },
          {
-            "name" : "Speciess",
-            "description": "These are the routes of the speciess"
+            "name" : "Species",
+            "description": "These are the routes of the species"
         }
     ]
 )
