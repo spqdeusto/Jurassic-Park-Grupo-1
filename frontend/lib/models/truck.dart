@@ -1,7 +1,7 @@
 class Truck {
   int id;
-  bool onRoute;
+  bool onRute;
   int passengers;
   bool securitySystem;
-  Truck(this.id, this.onRoute, this.passengers, this.securitySystem);
+  Truck(this.id, this.onRute, this.passengers, this.securitySystem);
 }

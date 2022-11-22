@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/enclosure.dart';
+import 'package:frontend/models/truck.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../helpers/methods.dart';
+import '../models/alarm.dart';
 import '../models/dinosaur.dart';
 import '../models/gender.dart';
 import '../models/species.dart';
@@ -20,11 +23,17 @@ class _LoadingPageState extends State<LoadingPage> {
   List<Species> species = [];
   List<Gender> genders = [];
   List<Dinosaur> dinosaurs = [];
+  List<Alarm> alarms = [];
+  List<Enclosure> enclosures = [];
+  List<Truck> trucks = [];
 
   obtainDataApi() async {
     await obtainSpecies();
     await obtainGenders();
+    await obtainAlarms();
     await obtainDinosaurs();
+    await obtainEnclosures();
+    await obtainTrucks();
 
     await Future.delayed(const Duration(seconds: 10));
 
@@ -53,6 +62,16 @@ class _LoadingPageState extends State<LoadingPage> {
     }
   }
 
+  obtainAlarms() async {
+    Future<List<Alarm>> futureAlarms = getAlarms();
+
+    alarms = await futureAlarms;
+
+    for (var item in alarms) {
+      print(item.name);
+    }
+  }
+
   obtainDinosaurs() async {
     Future<List<Dinosaur>> futureDinosaurs = getDinosaurs(species, genders);
 
@@ -60,6 +79,26 @@ class _LoadingPageState extends State<LoadingPage> {
 
     for (var item in dinosaurs) {
       print(item.name);
+    }
+  }
+
+  obtainEnclosures() async {
+    Future<List<Enclosure>> futureEnclosures = getEnclosures(species);
+
+    enclosures = await futureEnclosures;
+
+    for (var item in enclosures) {
+      print(item.name);
+    }
+  }
+
+  obtainTrucks() async {
+    Future<List<Truck>> futureTrucks = getTrucks();
+
+    trucks = await futureTrucks;
+
+    for (var item in trucks) {
+      print(item.id);
     }
   }
 
@@ -105,7 +144,7 @@ class _LoadingPageState extends State<LoadingPage> {
                   ],
                 ),
               ]))
-          : Home(dinosaurs, species),
+          : Home(species, genders, dinosaurs, alarms, enclosures, trucks),
     );
   }
 }

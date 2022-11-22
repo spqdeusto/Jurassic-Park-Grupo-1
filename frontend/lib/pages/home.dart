@@ -3,12 +3,23 @@ import 'package:frontend/models/dinosaur.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
+import '../models/alarm.dart';
+import '../models/enclosure.dart';
+import '../models/gender.dart';
 import '../models/species.dart';
+import '../models/truck.dart';
 
 class Home extends StatefulWidget {
-  List<Dinosaur> dinosaurs;
   List<Species> species;
-  Home(this.dinosaurs, this.species, {Key? key}) : super(key: key);
+  List<Gender> genders;
+  List<Dinosaur> dinosaurs;
+  List<Alarm> alarms;
+  List<Enclosure> enclosures;
+  List<Truck> trucks;
+  Home(this.species, this.genders, this.dinosaurs, this.alarms, this.enclosures,
+      this.trucks,
+      {Key? key})
+      : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();

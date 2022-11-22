@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:frontend/helpers/urls.dart';
+import 'package:frontend/models/alarm.dart';
+import 'package:frontend/models/enclosure.dart';
+import 'package:frontend/models/truck.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
@@ -28,7 +31,7 @@ Future<List<Species>> getSpecies() async {
 Future<List<Gender>> getGenders() async {
   Client client = http.Client();
 
-  List<Gender> gendersList = [];
+  List<Gender> genders = [];
 
   List response = json.decode((await client.get(allGenders())).body);
 
@@ -36,9 +39,26 @@ Future<List<Gender>> getGenders() async {
     int id = int.parse(gender['id']);
     String name = gender['name'];
 
-    gendersList.add(Gender(id, name));
+    genders.add(Gender(id, name));
   }
-  return gendersList;
+  return genders;
+}
+
+Future<List<Alarm>> getAlarms() async {
+  Client client = http.Client();
+
+  List<Alarm> alarms = [];
+
+  List response = json.decode((await client.get(allAlarms())).body);
+
+  for (var alarm in response) {
+    int id = int.parse(alarm['id']);
+    String name = alarm['name'];
+    bool active = alarm['active'];
+
+    alarms.add(Alarm(id, name, active));
+  }
+  return alarms;
 }
 
 Future<List<Dinosaur>> getDinosaurs(
@@ -69,4 +89,41 @@ Future<List<Dinosaur>> getDinosaurs(
     ));
   }
   return dinosaurs;
+}
+
+Future<List<Enclosure>> getEnclosures(List<Species> speciesList) async {
+  Client client = http.Client();
+
+  List<Enclosure> enclosures = [];
+
+  List response = json.decode((await client.get(allEnclosures())).body);
+
+  for (var enclosure in response) {
+    int id = int.parse(enclosure['id']);
+    String name = enclosure['name'];
+    //Los id empiezan desde 1, pero las posiciones de una lista desde 0. Por eso, para asignar una especie se resta 1 al id, para obtener su posición en la lista
+    Species species = speciesList[enclosure['species'] - 1];
+    bool electricity = enclosure['electricity'];
+
+    enclosures.add(Enclosure(id, name, species, electricity));
+  }
+  return enclosures;
+}
+
+Future<List<Truck>> getTrucks() async {
+  Client client = http.Client();
+
+  List<Truck> trucks = [];
+
+  List response = json.decode((await client.get(allTrucks())).body);
+
+  for (var truck in response) {
+    int id = int.parse(truck['id']);
+    bool onRute = truck['onRute'];
+    int passengers = truck['passengers'];
+    bool securitySystem = truck['securitySystem'];
+
+    trucks.add(Truck(id, onRute, passengers, securitySystem));
+  }
+  return trucks;
 }
