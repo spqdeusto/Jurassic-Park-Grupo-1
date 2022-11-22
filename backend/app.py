@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes.dinosaur import dinosaur
-from routes.enclosure import enclosure
 from routes.truck import truck
 from routes.gender import gender
 from routes.alarm import alarm
 from routes.species import speciesAPI
+from routes.dinosaur import dinosaur
+from routes.enclosure import enclosure
 
 app = FastAPI(
     title= "Jurassic Park API",

@@ -35,7 +35,7 @@ class _LoadingPageState extends State<LoadingPage> {
     await obtainEnclosures();
     await obtainTrucks();
 
-    await Future.delayed(const Duration(seconds: 10));
+    await Future.delayed(const Duration(seconds: 1));
 
     setState(() {
       _isLoading = false;
