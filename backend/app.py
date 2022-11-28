@@ -81,55 +81,61 @@ def startup_seedData_db():
         {"id": "1", "name": "Male"},
         {"id": "2", 'name': 'Female'},
     ]
-    
-    conn.execute(genders.insert().values(gender_Init))
-
     species_Init = [
-        {"id": "1", "name": "Dilophosaurus", "dangerousness": False},
-        {"id": "2", "name": "T-Rex", "dangerousness": False},
-        {"id": "3", "name": "Velociraptores", "dangerousness": False},
+        {"id": "1", "name": "Dilophosaurus", "dangerousness": True},
+        {"id": "2", "name": "T-Rex", "dangerousness": True},
+        {"id": "3", "name": "Velociraptor", "dangerousness": True},
         {"id": "4", "name": "Brachiosaurus", "dangerousness": False},
         {"id": "5", "name": "Parasaulophus", "dangerousness": False},
         {"id": "6", "name": "Galliminus", "dangerousness": False},
-        {"id": "7", "name": "Triceraptops", "dangerousness": False},
+        {"id": "7", "name": "Triceratops", "dangerousness": False},
     ]
-
- 
-    conn.execute(species.insert().values(species_Init))
-
     
     truck_Init = [
-        {"id": "1", "onRute": False, "passengers": "4", "securitySystem": False},
-        {"id": "2", "onRute": False, "passengers": "4", "securitySystem": False},
+        {"id": "1", "onRute": True, "passengers": 4, "securitySystem": True},
+        {"id": "2", "onRute": False, "passengers": 0, "securitySystem": True},
+        {"id": "3", "onRute": True, "passengers": 2, "securitySystem": True},
+        {"id": "4", "onRute": True, "passengers": 3, "securitySystem": True},
     ]
- 
-    conn.execute(trucks.insert().values(truck_Init))
 
     alarm_Init = [
-        {"id": "1", "name": "alerta maxima", "active": False},
-        {"id": "2", "name": "alerta media", "active": False},
-        {"id": "3", "name": "alerta baja", "active": False},
-        {"id": "4", "name": "normalidad", "active": False},
+        {"id": "1", "name": "Maximun Alert", "active": True},
+        {"id": "2", "name": "Medium Alert", "active": False},
+        {"id": "3", "name": "Low Alert", "active": False},
+        {"id": "4", "name": "Normality", "active": False},
     ]
-
-    conn.execute(alarms.insert().values(alarm_Init))
-
-    
+   
     enclosure_Init = [ 
-        {"id": "1", "name": "Recinto del Dilophosaurus", "species": "1", "electricity": False},
+        {"id": "1", "name": "Dilophosaurus Enclosure", "species": 1, "electricity": False},
+        {"id": "2", "name": "T-Rex Enclosure", "species": 2, "electricity": True},
+        {"id": "3", "name": "Velociraptor Enclosure", "species": 3, "electricity": True},
+        {"id": "4", "name": "Brachiosaurus and Parasaulophus Enclosure", "species": 4, "electricity": True},
+        {"id": "5", "name": "Galliminus Enclosure", "species": 6, "electricity": True},
+        {"id": "6", "name": "Triceratops Enclosure", "species": 7, "electricity": False},
     ]
-
-
-    conn.execute(enclosures.insert().values(enclosure_Init))
 
     dinosaur_Init = [
-        {"id": "1", "name": "Jose", "species": "1", "age": "20", "weight": "1000", "gender": "1"},
-        {"id": "2", "name": "Jose", "species": "2", "age": "20", "weight": "1000", "gender": "2"},
-        {"id": "3", "name": "Jose", "species": "3", "age": "20", "weight": "1000", "gender": "1"},
-        {"id": "4", "name": "Jose", "species": "4", "age": "20", "weight": "1000", "gender": "2"},
-        {"id": "5", "name": "AAAAAA", "species": "5", "age": "20", "weight": "1000", "gender": "1"},
+        {"id": "1", "name": "Zion", "species": 1, "age": 11, "weight": 120, "gender": 1},
+        {"id": "2", "name": "Glenda", "species": 1, "age": 8, "weight": 140, "gender": 2},
+        {"id": "3", "name": "Sven", "species": 1, "age": 9, "weight": 160, "gender": 1},
+        {"id": "4", "name": "Clarice", "species": 2, "age": 19, "weight": 100, "gender": 2},
+        {"id": "5", "name": "Randy", "species": 2, "age": 18, "weight": 120, "gender": 1},
+        {"id": "6", "name": "Ryan", "species": 3, "age": 12, "weight": 130, "gender": 1},
+        {"id": "7", "name": "Eva", "species": 3, "age": 10, "weight": 100, "gender": 2},
+        {"id": "8", "name": "Sair", "species": 4, "age": 14, "weight": 230, "gender": 2},
+        {"id": "9", "name": "Nebur", "species": 4, "age": 12, "weight": 280, "gender": 1},
+        {"id": "10", "name": "Andra", "species": 5, "age": 16, "weight": 240, "gender": 2},
+        {"id": "11", "name": "Mia", "species": 6, "age": 7, "weight": 100, "gender": 2},
+        {"id": "12", "name": "Aerol", "species": 6, "age": 20, "weight": 60, "gender": 1},
+        {"id": "13", "name": "Akrog", "species": 7, "age": 11, "weight": 170, "gender": 2},
+        {"id": "14", "name": "Carmen", "species": 7, "age": 13, "weight": 120, "gender": 2},
     ]
-    
+
+    conn.execute(genders.insert().values(gender_Init))
+    conn.execute(species.insert().values(species_Init))
+    conn.execute(trucks.insert().values(truck_Init))
+    conn.execute(alarms.insert().values(alarm_Init))
+    conn.execute(enclosures.insert().values(enclosure_Init))
     conn.execute(dinosaurs.insert().values(dinosaur_Init))
 
 
