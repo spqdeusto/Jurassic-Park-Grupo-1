@@ -27,3 +27,8 @@ Uri allTrucks() {
   Uri allTrucks = Uri.http('127.0.0.1:8000', '/trucks');
   return (allTrucks);
 }
+
+Uri updateEnclosure(String id) {
+  Uri updateEnclosure = Uri.http('127.0.0.1:8000', '/enclosures/update/$id');
+  return (updateEnclosure);
+}

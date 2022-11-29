@@ -22,8 +22,8 @@ app = FastAPI(
     description= "This is the group 1 API",
     openapi_tags=[
         {
-        "name": "Dinosaurs",
-        "description": "These are the routes of the dinosaurs"
+            "name": "Dinosaurs",
+            "description": "These are the routes of the dinosaurs"
         },
         {
             "name" : "Enclosures",
@@ -52,10 +52,10 @@ origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
     
 )
 app.include_router(speciesAPI)
@@ -69,6 +69,7 @@ app.include_router(dinosaur)
 
 @app.on_event("startup")
 def startup_seedData_db():
+    
     conn.execute(alarms.delete())
     conn.execute(enclosures.delete())
     conn.execute(dinosaurs.delete())
@@ -93,7 +94,7 @@ def startup_seedData_db():
     
     truck_Init = [
         {"id": "1", "onRute": True, "passengers": 4, "securitySystem": True},
-        {"id": "2", "onRute": False, "passengers": 0, "securitySystem": True},
+        {"id": "2", "onRute": False, "passengers": 0, "securitySystem": False},
         {"id": "3", "onRute": True, "passengers": 2, "securitySystem": True},
         {"id": "4", "onRute": True, "passengers": 3, "securitySystem": True},
     ]
