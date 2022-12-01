@@ -136,32 +136,32 @@ class _HomeState extends State<Home> {
                         //Dilophosaurus zone
                         Align(
                             alignment: const Alignment(-0.7, -0.7),
-                            child: generateZone(
+                            child: generateZoneIcon(
                                 widget.species[0], widget.enclosures[0], 0)),
                         //T-Rex zone
                         Align(
                             alignment: const Alignment(0.5, -0.6),
-                            child: generateZone(
+                            child: generateZoneIcon(
                                 widget.species[1], widget.enclosures[1], 1)),
                         //Velociraptor zone
                         Align(
                             alignment: const Alignment(-0.4, -0.3),
-                            child: generateZone(
+                            child: generateZoneIcon(
                                 widget.species[2], widget.enclosures[2], 2)),
                         //Brachiosaurus and Parasaulophus zone
                         Align(
                             alignment: const Alignment(0, 0.3),
-                            child: generateZone(
+                            child: generateZoneIcon(
                                 widget.species[3], widget.enclosures[3], 3)),
                         //Galliminus zone
                         Align(
                             alignment: const Alignment(-0.2, 0.8),
-                            child: generateZone(
+                            child: generateZoneIcon(
                                 widget.species[5], widget.enclosures[4], 4)),
                         //Triceratops zone
                         Align(
                             alignment: const Alignment(0.4, 0),
-                            child: generateZone(
+                            child: generateZoneIcon(
                                 widget.species[6], widget.enclosures[5], 5)),
                       ],
                     ),
@@ -318,16 +318,12 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 
-  MouseRegion generateZone(
+  MouseRegion generateZoneIcon(
       Species species, Enclosure enclosure, int hoverIndex) {
-    String iconRoute = species.name.toLowerCase() + '.png';
-    //Para obtener el estado de la suguridad de una zona, obtenemos la posición en la lista de la zona cuya especie coincida con la que le pasamos, y miramos su campo "electricity"
-    bool securityActivated = enclosure.electricity;
-
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: InkWell(
@@ -335,143 +331,7 @@ class _HomeState extends State<Home> {
           showDialog(
               context: context,
               builder: (context) {
-                return StatefulBuilder(
-                  builder: (BuildContext context, setStateDialog) {
-                    return AlertDialog(
-                      insetPadding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * 0.2),
-                      title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'This is the ' + enclosure.name,
-                              style: TextStyle(
-                                  fontSize: MediaQuery.of(context).size.width /
-                                      2000 *
-                                      38),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.015,
-                            ),
-                            securityActivated
-                                ? Icon(
-                                    Icons.lock_outline,
-                                    size: MediaQuery.of(context).size.width /
-                                        2000 *
-                                        56,
-                                    color: Colors.green,
-                                  )
-                                : Icon(
-                                    Icons.lock_open,
-                                    size: MediaQuery.of(context).size.width /
-                                        2000 *
-                                        56,
-                                    color: Colors.red,
-                                  )
-                          ]),
-                      content: SingleChildScrollView(
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: ListView(
-                            children: [
-                              for (var dinosaur in widget.dinosaurs)
-                                if (dinosaur.species.id ==
-                                        enclosure.species.id ||
-                                    (dinosaur.species.id == 5 &&
-                                        enclosure.species.id == 4))
-                                  SizedBox(
-                                    height: MediaQuery.of(context).size.height /
-                                        1000 *
-                                        80,
-                                    child: ListTile(
-                                      leading: dinosaur.species.id != 5
-                                          ? SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2000 *
-                                                  64,
-                                              child: Image.asset(
-                                                  "icons/$iconRoute"),
-                                            )
-                                          : SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width /
-                                                  2000 *
-                                                  64,
-                                              child: Image.asset(
-                                                  "icons/parasaulophus.png"),
-                                            ),
-                                      title: Text(
-                                        dinosaur.name.toUpperCase() +
-                                            ', ' +
-                                            dinosaur.age.toString() +
-                                            ' ages' +
-                                            ' and ' +
-                                            dinosaur.weight.toString() +
-                                            ' kilos',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width /
-                                              2000 *
-                                              24,
-                                        ),
-                                      ),
-                                      trailing: SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width *
-                                                0.05,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: const [
-                                            Icon(Icons.edit),
-                                            Icon(Icons.delete),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      actions: [
-                        SlideAction(
-                          height:
-                              MediaQuery.of(context).size.height / 1000 * 68,
-                          outerColor: Colors.lightBlue,
-                          innerColor: Colors.white,
-                          sliderButtonIconPadding:
-                              MediaQuery.of(context).size.height / 1000 * 14,
-                          sliderButtonIconSize:
-                              MediaQuery.of(context).size.height / 1000 * 28,
-                          text: securityActivated
-                              ? 'Slide to deactivate security'
-                              : 'Slide to activate security',
-                          textStyle: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.width / 2000 * 28,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
-                          onSubmit: () async {
-                            bool deactivatedSuccess =
-                                await updateSecurity(enclosure);
-                            if (deactivatedSuccess) {
-                              setStateDialog(() {
-                                securityActivated = !securityActivated;
-                              });
-                            }
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
+                return zoneAlertDialog(species, enclosure, hoverIndex);
               });
         },
         onHover: (hover) {
@@ -493,4 +353,743 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
+  StatefulBuilder zoneAlertDialog(
+      Species species, Enclosure enclosure, int hoverIndex) {
+    //Para obtener el estado de la suguridad de una zona, obtenemos la posición en la lista de la zona cuya especie coincida con la que le pasamos, y miramos su campo "electricity"
+    bool securityActivated = enclosure.electricity;
+    String iconRoute = species.name.toLowerCase() + '.png';
+    return StatefulBuilder(
+      builder: (BuildContext context, setStateDialog) {
+        return AlertDialog(
+          insetPadding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.2),
+          title:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Text(
+              'This is the ' + enclosure.name,
+              style: TextStyle(
+                  fontSize: MediaQuery.of(context).size.width / 2000 * 38),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.015,
+            ),
+            securityActivated
+                ? Icon(
+                    Icons.lock_outline,
+                    size: MediaQuery.of(context).size.width / 2000 * 56,
+                    color: Colors.green,
+                  )
+                : Icon(
+                    Icons.lock_open,
+                    size: MediaQuery.of(context).size.width / 2000 * 56,
+                    color: Colors.red,
+                  )
+          ]),
+          content: SingleChildScrollView(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.25,
+              width: MediaQuery.of(context).size.width * 0.3,
+              child: ListView(
+                children: [
+                  for (var dinosaur in widget.dinosaurs)
+                    if (dinosaur.species.id == enclosure.species.id ||
+                        (dinosaur.species.id == 5 && enclosure.species.id == 4))
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 1000 * 80,
+                        child: ListTile(
+                          leading: dinosaur.species.id != 5
+                              ? SizedBox(
+                                  width: MediaQuery.of(context).size.width /
+                                      2000 *
+                                      64,
+                                  child: Image.asset("icons/$iconRoute"),
+                                )
+                              : SizedBox(
+                                  width: MediaQuery.of(context).size.width /
+                                      2000 *
+                                      64,
+                                  child: Image.asset("icons/parasaulophus.png"),
+                                ),
+                          title: Text(
+                            dinosaur.name.toUpperCase() +
+                                ', ' +
+                                dinosaur.age.toString() +
+                                ' ages' +
+                                ' and ' +
+                                dinosaur.weight.toString() +
+                                ' kilos',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  MediaQuery.of(context).size.width / 2000 * 24,
+                            ),
+                          ),
+                          trailing: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.05,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                MouseRegion(
+                                  cursor: SystemMouseCursors.click,
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return editDinosaurAlertDialog(
+                                                  species,
+                                                  enclosure,
+                                                  hoverIndex,
+                                                  dinosaur);
+                                            });
+                                      },
+                                      child: const Icon(Icons.edit)),
+                                ),
+                                MouseRegion(
+                                    cursor: SystemMouseCursors.click,
+                                    child: GestureDetector(
+                                        onTap: () async {
+                                          bool success =
+                                              await deleteDinosaur(dinosaur.id);
+                                          if (success) {
+                                            setStateDialog(() {
+                                              widget.dinosaurs.removeAt(widget
+                                                  .dinosaurs
+                                                  .indexOf(dinosaur));
+                                            });
+                                          }
+                                        },
+                                        child: const Icon(Icons.delete))),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            Column(children: [
+              Align(
+                alignment: const Alignment(0.9, 1),
+                child: MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return newDinosaurAlertDialog(species, enclosure,
+                                hoverIndex, widget.dinosaurs.last.id + 1);
+                          });
+                    },
+                    child: Text(
+                      'Add a new one',
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontSize:
+                              MediaQuery.of(context).size.height / 1000 * 26),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              SlideAction(
+                height: MediaQuery.of(context).size.height / 1000 * 68,
+                outerColor: Colors.lightBlue,
+                innerColor: Colors.white,
+                sliderButtonIconPadding:
+                    MediaQuery.of(context).size.height / 1000 * 14,
+                sliderButtonIconSize:
+                    MediaQuery.of(context).size.height / 1000 * 28,
+                text: securityActivated
+                    ? 'Slide to deactivate security'
+                    : 'Slide to activate security',
+                textStyle: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width / 2000 * 28,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
+                onSubmit: () async {
+                  bool deactivatedSuccess = await updateSecurity(enclosure);
+                  if (deactivatedSuccess) {
+                    setStateDialog(() {
+                      securityActivated = !securityActivated;
+                    });
+                  }
+                },
+              ),
+            ]),
+          ],
+        );
+      },
+    );
+  }
+
+  StatefulBuilder newDinosaurAlertDialog(Species species, Enclosure enclosure,
+      int hoverIndex, int nextDinosaurId) {
+    Color textFieldColor = const Color.fromARGB(255, 222, 213, 213);
+    Color textFieldText = Colors.black;
+    Color textFieldHintText = const Color.fromARGB(255, 108, 107, 107);
+    Color textFieldIcon = const Color.fromARGB(255, 53, 50, 50);
+    final TextEditingController nameController = TextEditingController();
+    final TextEditingController ageController = TextEditingController();
+    final TextEditingController weightController = TextEditingController();
+    bool _userError = false;
+    String iconRoute = species.name.toLowerCase() + '.png';
+    Gender? selectedGender = widget.genders[0];
+    Species? selectedSpecies = species;
+    return StatefulBuilder(builder: (BuildContext context, setStateDialog) {
+      return AlertDialog(
+        insetPadding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.2),
+        title: Text(
+          'Add a new ' + species.name,
+          style: TextStyle(
+              fontSize: MediaQuery.of(context).size.width / 2000 * 38),
+        ),
+        content: Container(
+          color: Colors.white,
+          alignment: Alignment.centerLeft,
+          width: MediaQuery.of(context).size.width * 0.3,
+          height: MediaQuery.of(context).size.height * 0.24,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.145,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  decoration: BoxDecoration(
+                    color: textFieldColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width / 2000 * 12,
+                      top: MediaQuery.of(context).size.width / 2000 * 5,
+                      bottom: MediaQuery.of(context).size.width / 2000 * 6,
+                    ),
+                    child: TextField(
+                      style: TextStyle(
+                        color: textFieldText,
+                        fontSize: MediaQuery.of(context).size.width / 1000 * 18,
+                      ),
+                      controller: nameController,
+                      decoration: InputDecoration(
+                          icon: Image.asset(
+                            "icons/$iconRoute",
+                            color: _userError ? Colors.red : textFieldIcon,
+                            height:
+                                MediaQuery.of(context).size.width / 1000 * 20,
+                          ),
+                          border: InputBorder.none,
+                          hintText: 'Name',
+                          hintStyle: TextStyle(
+                            color: textFieldHintText,
+                            fontSize:
+                                MediaQuery.of(context).size.width / 1000 * 16,
+                          )),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.145,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: textFieldColor,
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<Gender>(
+                      underline: Container(
+                        color: textFieldText,
+                        height: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                      dropdownColor: textFieldColor,
+                      style: TextStyle(
+                          fontSize:
+                              MediaQuery.of(context).size.width / 1000 * 16,
+                          color: textFieldText),
+                      iconSize: 32,
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        color: textFieldIcon,
+                      ),
+                      isExpanded: true,
+                      value: selectedGender,
+                      items: widget.genders.map(genderMenu).toList(),
+                      onChanged: (value) => setStateDialog(() {
+                        selectedGender = value;
+                      }),
+                    ),
+                  ),
+                ),
+              ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.145,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    decoration: BoxDecoration(
+                      color: textFieldColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 2000 * 12,
+                        top: MediaQuery.of(context).size.width / 2000 * 5,
+                        bottom: MediaQuery.of(context).size.width / 2000 * 6,
+                      ),
+                      child: TextField(
+                        style: TextStyle(
+                          color: textFieldText,
+                          fontSize:
+                              MediaQuery.of(context).size.width / 1000 * 18,
+                        ),
+                        controller: ageController,
+                        decoration: InputDecoration(
+                            icon: Icon(
+                              Icons.cake,
+                              color: _userError ? Colors.red : textFieldIcon,
+                              size:
+                                  MediaQuery.of(context).size.width / 1000 * 20,
+                            ),
+                            border: InputBorder.none,
+                            hintText: 'Age',
+                            hintStyle: TextStyle(
+                              color: textFieldHintText,
+                              fontSize:
+                                  MediaQuery.of(context).size.width / 1000 * 16,
+                            )),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.145,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    decoration: BoxDecoration(
+                      color: textFieldColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 2000 * 12,
+                        top: MediaQuery.of(context).size.width / 2000 * 5,
+                        bottom: MediaQuery.of(context).size.width / 2000 * 6,
+                      ),
+                      child: TextField(
+                        style: TextStyle(
+                          color: textFieldText,
+                          fontSize:
+                              MediaQuery.of(context).size.width / 1000 * 18,
+                        ),
+                        controller: weightController,
+                        decoration: InputDecoration(
+                            icon: Icon(
+                              Icons.monitor_weight_sharp,
+                              color: _userError ? Colors.red : textFieldIcon,
+                              size:
+                                  MediaQuery.of(context).size.width / 1000 * 20,
+                            ),
+                            border: InputBorder.none,
+                            hintText: 'Weight',
+                            hintStyle: TextStyle(
+                              color: textFieldHintText,
+                              fontSize:
+                                  MediaQuery.of(context).size.width / 1000 * 16,
+                            )),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.16,
+                height: MediaQuery.of(context).size.height * 0.06,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: textFieldColor,
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<Species>(
+                    underline: Container(
+                      color: textFieldText,
+                      height: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                    dropdownColor: textFieldColor,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width / 1000 * 16,
+                        color: textFieldText),
+                    iconSize: 32,
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: textFieldIcon,
+                    ),
+                    isExpanded: true,
+                    value: selectedSpecies,
+                    items: widget.species.map(speciesMenu).toList(),
+                    onChanged: (value) => setStateDialog(() {
+                      selectedSpecies = value;
+                    }),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          Align(
+            alignment: Alignment.center,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () async {
+                  Dinosaur newDinosaur = Dinosaur(
+                      nextDinosaurId,
+                      nameController.text,
+                      selectedSpecies!,
+                      int.parse(ageController.text),
+                      double.parse(weightController.text),
+                      selectedGender!);
+                  bool success = await createDinosaur(newDinosaur);
+
+                  setState(() {
+                    if (success) {
+                      widget.dinosaurs.add(newDinosaur);
+                    }
+                  });
+
+                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return zoneAlertDialog(species, enclosure, hoverIndex);
+                      });
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width * 0.08,
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.blue,
+                  ),
+                  child: Text(
+                    'Create',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: MediaQuery.of(context).size.width / 1000 * 14,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      );
+    });
+  }
+
+  StatefulBuilder editDinosaurAlertDialog(
+      Species species, Enclosure enclosure, int hoverIndex, Dinosaur dinosaur) {
+    Color textFieldColor = const Color.fromARGB(255, 222, 213, 213);
+    Color textFieldText = Colors.black;
+    Color textFieldHintText = const Color.fromARGB(255, 108, 107, 107);
+    Color textFieldIcon = const Color.fromARGB(255, 53, 50, 50);
+    final TextEditingController nameController =
+        TextEditingController(text: dinosaur.name);
+    final TextEditingController ageController =
+        TextEditingController(text: dinosaur.age.toString());
+    final TextEditingController weightController =
+        TextEditingController(text: dinosaur.weight.toString());
+    bool _userError = false;
+    String iconRoute = species.name.toLowerCase() + '.png';
+    Gender? selectedGender = dinosaur.gender;
+    Species? selectedSpecies = dinosaur.species;
+    return StatefulBuilder(builder: (BuildContext context, setStateDialog) {
+      return AlertDialog(
+        insetPadding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.2),
+        title: Text(
+          'Edit this ' + species.name,
+          style: TextStyle(
+              fontSize: MediaQuery.of(context).size.width / 2000 * 38),
+        ),
+        content: Container(
+          color: Colors.white,
+          alignment: Alignment.centerLeft,
+          width: MediaQuery.of(context).size.width * 0.3,
+          height: MediaQuery.of(context).size.height * 0.24,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.145,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  decoration: BoxDecoration(
+                    color: textFieldColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width / 2000 * 12,
+                      top: MediaQuery.of(context).size.width / 2000 * 5,
+                      bottom: MediaQuery.of(context).size.width / 2000 * 6,
+                    ),
+                    child: TextField(
+                      style: TextStyle(
+                        color: textFieldText,
+                        fontSize: MediaQuery.of(context).size.width / 1000 * 18,
+                      ),
+                      controller: nameController,
+                      decoration: InputDecoration(
+                          icon: Image.asset(
+                            "icons/$iconRoute",
+                            color: _userError ? Colors.red : textFieldIcon,
+                            height:
+                                MediaQuery.of(context).size.width / 1000 * 20,
+                          ),
+                          border: InputBorder.none,
+                          hintText: 'Name',
+                          hintStyle: TextStyle(
+                            color: textFieldHintText,
+                            fontSize:
+                                MediaQuery.of(context).size.width / 1000 * 16,
+                          )),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.145,
+                  height: MediaQuery.of(context).size.height * 0.06,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: textFieldColor,
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<Gender>(
+                      underline: Container(
+                        color: textFieldText,
+                        height: 1,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                      dropdownColor: textFieldColor,
+                      style: TextStyle(
+                          fontSize:
+                              MediaQuery.of(context).size.width / 1000 * 16,
+                          color: textFieldText),
+                      iconSize: 32,
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        color: textFieldIcon,
+                      ),
+                      isExpanded: true,
+                      value: selectedGender,
+                      items: widget.genders.map(genderMenu).toList(),
+                      onChanged: (value) => setStateDialog(() {
+                        selectedGender = value;
+                      }),
+                    ),
+                  ),
+                ),
+              ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.145,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    decoration: BoxDecoration(
+                      color: textFieldColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 2000 * 12,
+                        top: MediaQuery.of(context).size.width / 2000 * 5,
+                        bottom: MediaQuery.of(context).size.width / 2000 * 6,
+                      ),
+                      child: TextField(
+                        style: TextStyle(
+                          color: textFieldText,
+                          fontSize:
+                              MediaQuery.of(context).size.width / 1000 * 18,
+                        ),
+                        controller: ageController,
+                        decoration: InputDecoration(
+                            icon: Icon(
+                              Icons.cake,
+                              color: _userError ? Colors.red : textFieldIcon,
+                              size:
+                                  MediaQuery.of(context).size.width / 1000 * 20,
+                            ),
+                            border: InputBorder.none,
+                            hintText: 'Age',
+                            hintStyle: TextStyle(
+                              color: textFieldHintText,
+                              fontSize:
+                                  MediaQuery.of(context).size.width / 1000 * 16,
+                            )),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.145,
+                    height: MediaQuery.of(context).size.height * 0.06,
+                    decoration: BoxDecoration(
+                      color: textFieldColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 2000 * 12,
+                        top: MediaQuery.of(context).size.width / 2000 * 5,
+                        bottom: MediaQuery.of(context).size.width / 2000 * 6,
+                      ),
+                      child: TextField(
+                        style: TextStyle(
+                          color: textFieldText,
+                          fontSize:
+                              MediaQuery.of(context).size.width / 1000 * 18,
+                        ),
+                        controller: weightController,
+                        decoration: InputDecoration(
+                            icon: Icon(
+                              Icons.monitor_weight_sharp,
+                              color: _userError ? Colors.red : textFieldIcon,
+                              size:
+                                  MediaQuery.of(context).size.width / 1000 * 20,
+                            ),
+                            border: InputBorder.none,
+                            hintText: 'Weight',
+                            hintStyle: TextStyle(
+                              color: textFieldHintText,
+                              fontSize:
+                                  MediaQuery.of(context).size.width / 1000 * 16,
+                            )),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.16,
+                height: MediaQuery.of(context).size.height * 0.06,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: textFieldColor,
+                ),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<Species>(
+                    underline: Container(
+                      color: textFieldText,
+                      height: 1,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                    dropdownColor: textFieldColor,
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).size.width / 1000 * 16,
+                        color: textFieldText),
+                    iconSize: 32,
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: textFieldIcon,
+                    ),
+                    isExpanded: true,
+                    value: selectedSpecies,
+                    items: widget.species.map(speciesMenu).toList(),
+                    onChanged: (value) => setStateDialog(() {
+                      selectedSpecies = value;
+                    }),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          Align(
+            alignment: Alignment.center,
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: () async {
+                  Dinosaur updatedDinosaur = Dinosaur(
+                      dinosaur.id,
+                      nameController.text,
+                      selectedSpecies!,
+                      int.parse(ageController.text),
+                      double.parse(weightController.text),
+                      selectedGender!);
+                  bool success = await updateDinosaur(updatedDinosaur);
+
+                  setState(() {
+                    if (success) {
+                      widget.dinosaurs[widget.dinosaurs.indexOf(dinosaur)] =
+                          updatedDinosaur;
+                    }
+                  });
+
+                  Navigator.pop(context);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return zoneAlertDialog(species, enclosure, hoverIndex);
+                      });
+                },
+                child: Container(
+                  alignment: Alignment.center,
+                  width: MediaQuery.of(context).size.width * 0.08,
+                  height: MediaQuery.of(context).size.height * 0.05,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.blue,
+                  ),
+                  child: Text(
+                    'Edit',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: MediaQuery.of(context).size.width / 1000 * 14,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      );
+    });
+  }
+
+  DropdownMenuItem<Species> speciesMenu(Species species) => DropdownMenuItem(
+        value: species,
+        child: Text(
+          species.name,
+          style: const TextStyle(fontSize: 20, color: Colors.black),
+        ),
+      );
+
+  DropdownMenuItem<Gender> genderMenu(Gender gender) => DropdownMenuItem(
+        value: gender,
+        child: Text(
+          gender.name,
+          style: const TextStyle(fontSize: 20, color: Colors.black),
+        ),
+      );
 }

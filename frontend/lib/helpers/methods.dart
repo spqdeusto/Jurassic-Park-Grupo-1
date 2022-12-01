@@ -127,3 +127,53 @@ Future<List<Truck>> getTrucks() async {
   }
   return trucks;
 }
+
+Future<bool> createDinosaur(Dinosaur dinosaur) async {
+  Client client = http.Client();
+  var bodyEncoded = jsonEncode({
+    "name": dinosaur.name,
+    "species": dinosaur.species.id.toString(),
+    "age": dinosaur.age,
+    "weight": dinosaur.weight,
+    "gender": dinosaur.gender.id.toString(),
+  });
+
+  var response = await client.post(createDinosaurUri(),
+      headers: {"Content-Type": "application/json"}, body: bodyEncoded);
+
+  if (response.statusCode == 200) {
+    return true;
+  }
+  return false;
+}
+
+Future<bool> updateDinosaur(Dinosaur dinosaur) async {
+  Client client = http.Client();
+  var bodyEncoded = jsonEncode({
+    "name": dinosaur.name,
+    "species": dinosaur.species.id.toString(),
+    "age": dinosaur.age,
+    "weight": dinosaur.weight,
+    "gender": dinosaur.gender.id.toString(),
+  });
+
+  var response = await client.put(updateDinosaurUri(dinosaur.id.toString()),
+      headers: {"Content-Type": "application/json"}, body: bodyEncoded);
+
+  if (response.statusCode == 200) {
+    return true;
+  }
+  return false;
+}
+
+Future<bool> deleteDinosaur(int id) async {
+  Client client = http.Client();
+
+  var response = await client.get(deleteDinosaurUri(id.toString()),
+      headers: {"Content-Type": "application/json"});
+
+  if (response.statusCode == 200) {
+    return true;
+  }
+  return false;
+}

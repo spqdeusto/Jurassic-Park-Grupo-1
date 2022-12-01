@@ -32,3 +32,18 @@ Uri updateEnclosure(String id) {
   Uri updateEnclosure = Uri.http('127.0.0.1:8000', '/enclosures/update/$id');
   return (updateEnclosure);
 }
+
+Uri createDinosaurUri() {
+  Uri createDinosaur = Uri.http('127.0.0.1:8000', '/dinosaurs');
+  return (createDinosaur);
+}
+
+Uri updateDinosaurUri(String id) {
+  Uri updateDinosaur = Uri.http('127.0.0.1:8000', '/dinosaurs/update/$id');
+  return (updateDinosaur);
+}
+
+Uri deleteDinosaurUri(String id) {
+  Uri deleteDinosaur = Uri.http('127.0.0.1:8000', '/dinosaurs/delete/$id');
+  return (deleteDinosaur);
+}
