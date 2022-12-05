@@ -59,11 +59,6 @@ def updateAlarm():
 
     all_trucks = conn.execute(trucks.select()).fetchall()
 
-    print(dangereous_species_ids)
-    print(not_dangereous_species_ids)
-    print(deactivate_and_dangereous)
-    print(deactivate_but_not_dangereous)
-
     if (deactivate_and_dangereous and trucks_on_route):
         
         current_active_alarm = conn.execute(alarms.select().where(alarms.c.active == True)).first()

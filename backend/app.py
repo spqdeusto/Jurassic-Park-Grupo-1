@@ -10,6 +10,9 @@ from routes.enclosure import enclosure
 
 from config.db import conn
 
+from tests.dinosaur_test import get_all_dinosaurs_test, create_dinosaur_test
+from tests.gender_test import get_all_genders_test, create_gender_test
+
 from models.gender import genders
 from models.species import species
 from models.truck import trucks
@@ -66,6 +69,11 @@ app.include_router(alarm)
 
 app.include_router(enclosure)
 app.include_router(dinosaur)
+
+
+
+
+
 
 @app.on_event("startup")
 def startup_seedData_db():
@@ -138,6 +146,18 @@ def startup_seedData_db():
     conn.execute(alarms.insert().values(alarm_Init))
     conn.execute(enclosures.insert().values(enclosure_Init))
     conn.execute(dinosaurs.insert().values(dinosaur_Init))
+
+    get_all_dinosaurs_test()
+    create_dinosaur_test()
+    get_all_genders_test()
+    create_gender_test()
+
+
+
+    
+
+    
+
 
 
 
