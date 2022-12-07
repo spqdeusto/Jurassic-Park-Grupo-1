@@ -36,6 +36,9 @@ class _HomeState extends State<Home> {
   //For changing the color from an enclosure when hovering it, we have create a list of bools, one for each enclosure. So, when an enclosure is not beeing hovered, it is false, when it is, true. There is one value for each enclosur: Position [0] = Dilophosaurus Hover, Position [1] = T-Rex Hover, Position [2] = Velociraptor Hover, Position [3] = Brachiosaurus Hover, Position [4] = Galliminus Hover, Position [5] = Triceratops Hover,
   List<bool> enclosuresHover = [false, false, false, false, false, false];
 
+  /// Actualiza la seguridad de las alarmas
+  ///
+  /// Llama al método de helpers/methods deactivateEnclosureElectricity, al que le pasa el recinto al que estamos activando o desactivando la seguridad [enclosure]. Después llama al método de helpers/methods obtainUpdatedData para actualizar la información de las alarmas. Cada método retorna true si es exitoso y falso si se produce un error. En caso de que ambos sean exitosos retorna true, en caso contrario, false.
   Future<bool> updateSecurity(Enclosure enclosure) async {
     bool deactivatedSuccess = await deactivateEnclosureElectricity(enclosure);
     bool obtainedDataSuccess = await obtainUpdatedData();
@@ -45,6 +48,9 @@ class _HomeState extends State<Home> {
     return (deactivatedSuccess && obtainedDataSuccess);
   }
 
+  /// Método que desactiva o activa la seguridad de un recinto
+  ///
+  /// Recibe el recinto a modificar [enclosure] y se crea un cuerpo json con los campos de [enclosure], pero cambiando la seguridad (si era true pasa a false y viceversa). Llama al endpoint de update de un recinto, utilizando la URI de helpers/urls updateEnclosure, que contiene la URI correspondiente, a la que le añadimos el id del enclosure a modificar. En el backend, esto actualiza los datos del recinto, además de modificar el estado de las alarmas y el piloto automático de las furgonetas. Retorna true si el codigo de respuesta es exitoso (200) y false en caso contrario
   Future<bool> deactivateEnclosureElectricity(Enclosure enclosure) async {
     Client client = http.Client();
     var bodyEncoded = jsonEncode({
@@ -69,6 +75,9 @@ class _HomeState extends State<Home> {
     return false;
   }
 
+  /// Obtiene la información actualizada de la base de datos
+  ///
+  /// Obtiene de nuevo todas las alarmas, recintos y furgonetas con la información actualizadas de la base de datos, mediante los métodos de helpers/methods getAlarms, getEnclosures y getTrucks. Retorna true si el codigo de respuesta es exitoso (200) y false en caso contrario
   Future<bool> obtainUpdatedData() async {
     Future<List<Alarm>> futureAlarms = getAlarms();
     widget.alarms = await futureAlarms;
@@ -250,38 +259,54 @@ class _HomeState extends State<Home> {
                                                     .size
                                                     .width *
                                                 0.03,
-                                            child: Image.asset(
-                                                "icons/truck.png",
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2000 *
-                                                    64,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    2000 *
-                                                    64)),
-                                        title: Text(
-                                          'Truck nº' + truck.id.toString(),
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2000 *
-                                                26,
+                                            child: Tooltip(
+                                              message: truck.onRute
+                                                  ? 'Truck on route'
+                                                  : 'Truck not on route',
+                                              child: Opacity(
+                                                opacity: truck.onRute ? 1 : 0.6,
+                                                child: Image.asset(
+                                                    "icons/truck.png",
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2000 *
+                                                            64,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2000 *
+                                                            64),
+                                              ),
+                                            )),
+                                        title: Opacity(
+                                          opacity: truck.onRute ? 1 : 0.6,
+                                          child: Text(
+                                            'Truck nº' + truck.id.toString(),
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2000 *
+                                                  26,
+                                            ),
                                           ),
                                         ),
-                                        subtitle: Text(
-                                          truck.passengers.toString() +
-                                              ' passengers',
-                                          style: TextStyle(
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                2000 *
-                                                22,
+                                        subtitle: Opacity(
+                                          opacity: truck.onRute ? 1 : 0.6,
+                                          child: Text(
+                                            truck.passengers.toString() +
+                                                ' passengers',
+                                            style: TextStyle(
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2000 *
+                                                  22,
+                                            ),
                                           ),
                                         ),
                                         trailing: SizedBox(

@@ -11,6 +11,10 @@ import 'package:frontend/models/dinosaur.dart';
 import '../models/gender.dart';
 import '../models/species.dart';
 
+/// Obtiene todas las especies de la base de datos
+///
+/// Hace una llamada al endpoint gracias a la URI de helpers/urls allSpecies, que nos devuelve una Future List de las especies. Es una Future List debido a que, al ser una llamada a la API, la data no se obtiene de manera inmediata. Por cada elemento de la respuesta, creamos una especie y la añadimos a [species], que es lo que retornamos.
+
 Future<List<Species>> getSpecies() async {
   Client client = http.Client();
 
@@ -28,6 +32,9 @@ Future<List<Species>> getSpecies() async {
   return speciesList;
 }
 
+/// Obtiene todos los generos de la base de datos
+///
+/// Hace una llamada al endpoint gracias a la URI de helpers/urls allGenders, que nos devuelve una Future List de los géneros. Es una Future List debido a que, al ser una llamada a la API, la data no se obtiene de manera inmediata. Por cada elemento de la respuesta, creamos un género y la añadimos a [genders], que es lo que retornamos.
 Future<List<Gender>> getGenders() async {
   Client client = http.Client();
 
@@ -44,6 +51,9 @@ Future<List<Gender>> getGenders() async {
   return genders;
 }
 
+/// Obtiene todas las alarmas de la base de datos
+///
+/// Hace una llamada al endpoint gracias a la URI de helpers/urls allAlarms, que nos devuelve una Future List de las alarmas. Es una Future List debido a que, al ser una llamada a la API, la data no se obtiene de manera inmediata. Por cada elemento de la respuesta, creamos una especie y la añadimos a [alarms], que es lo que retornamos.
 Future<List<Alarm>> getAlarms() async {
   Client client = http.Client();
 
@@ -61,6 +71,9 @@ Future<List<Alarm>> getAlarms() async {
   return alarms;
 }
 
+/// Obtiene todos los dinosaurios de la base de datos
+///
+/// Hace una llamada al endpoint gracias a la URI de helpers/urls allDinosaurs, que nos devuelve una Future List de los dinosaurios. Es una Future List debido a que, al ser una llamada a la API, la data no se obtiene de manera inmediata. Por cada elemento de la respuesta, creamos un dinosaurio y lo añadimos a [dinosaurs], que es lo que retornamos.
 Future<List<Dinosaur>> getDinosaurs(
     List<Species> speciesList, List<Gender> gendersList) async {
   Client client = http.Client();
@@ -91,6 +104,9 @@ Future<List<Dinosaur>> getDinosaurs(
   return dinosaurs;
 }
 
+/// Obtiene todos los recintos de la base de datos
+///
+/// Hace una llamada al endpoint gracias a la URI de helpers/urls allEnclosures, que nos devuelve una Future List de los recintos. Es una Future List debido a que, al ser una llamada a la API, la data no se obtiene de manera inmediata. Por cada elemento de la respuesta, creamos un recinto y lo añadimos a [enclosures], que es lo que retornamos.
 Future<List<Enclosure>> getEnclosures(List<Species> speciesList) async {
   Client client = http.Client();
 
@@ -110,6 +126,9 @@ Future<List<Enclosure>> getEnclosures(List<Species> speciesList) async {
   return enclosures;
 }
 
+/// Obtiene todas las furgonetas de la base de datos
+///
+/// Hace una llamada al endpoint gracias a la URI de helpers/urls allTrucks, que nos devuelve una Future List de las furgonetas. Es una Future List debido a que, al ser una llamada a la API, la data no se obtiene de manera inmediata. Por cada elemento de la respuesta, creamos una furgoneta y la añadimos a [trucks], que es lo que retornamos.
 Future<List<Truck>> getTrucks() async {
   Client client = http.Client();
 
@@ -128,6 +147,9 @@ Future<List<Truck>> getTrucks() async {
   return trucks;
 }
 
+/// Crea un dinosaurio
+///
+/// Se nos pasa como parametro el dinosaurio a crear [dinosaur]. Sus campos se crean en un body json. Después llamamos al endpoint gracias a la URI createDinosaurUri de helpers/urls. Retorna true si la operación se completa exitosamente (codigo de respuesta == 200) y false en caso contrario.
 Future<bool> createDinosaur(Dinosaur dinosaur) async {
   Client client = http.Client();
   var bodyEncoded = jsonEncode({
@@ -147,6 +169,9 @@ Future<bool> createDinosaur(Dinosaur dinosaur) async {
   return false;
 }
 
+///Modifica un dinosaurio
+///
+///Se pasa como parametro el dinosaurio modificado [dinosaur]. Sus campos se crean en un body json. Después llamamos al endpoint gracias a la URI updateDinosaurUri de helpers/urls, al que le pasamos el id del dinosaurio a modificar. Retorna true si la operación se completa exitosamente (codigo de respuesta == 200) y false en caso contrario.
 Future<bool> updateDinosaur(Dinosaur dinosaur) async {
   Client client = http.Client();
   var bodyEncoded = jsonEncode({
@@ -166,6 +191,9 @@ Future<bool> updateDinosaur(Dinosaur dinosaur) async {
   return false;
 }
 
+///Elimina un dinosaurio
+///
+///Se pasa como parametro el id del dinosaurio a eliminar [id]. Llamamos al endpoint gracias a la URI deleteDinosaurUri de helpers/urls, al que le pasamos el id del dinosaurio a eliminar. Retorna true si la operación se completa exitosamente (codigo de respuesta == 200) y false en caso contrario.
 Future<bool> deleteDinosaur(int id) async {
   Client client = http.Client();
 
