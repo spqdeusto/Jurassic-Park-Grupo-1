@@ -11,7 +11,8 @@ from routes.enclosure import enclosure
 from config.db import conn
 
 from tests.dinosaur_test import get_all_dinosaurs_test, create_dinosaur_test
-from tests.gender_test import get_all_genders_test, create_gender_test
+from tests.gender_test import get_all_genders_test, create_gender_test, delete_gender_test
+from tests.species_test import get_all_species_test, create_species_test
 
 from models.gender import genders
 from models.species import species
@@ -151,11 +152,12 @@ def startup_seedData_db():
     create_dinosaur_test()
     get_all_genders_test()
     create_gender_test()
-
+    get_all_species_test()
+    create_species_test()   
 
 
     
-
+  
     
 
 

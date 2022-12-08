@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from routes.gender import gender, get_genders
+from routes.gender import gender, get_genders, delete_gender
 
 client = TestClient(gender)
 
@@ -29,3 +29,14 @@ def create_gender_test():
 
     if (response.status_code != 200):
         print ("CREATE GENDER TEST NOT PASSED")
+
+def delete_gender_test():
+    id = "3",
+    response = client.delete("/genders/{id}", headers = {"Content-Type": "application/json"}, json={"validation_code": 789})
+    if (response.status_code == 200):
+        assert response.status_code == 200
+        print ("DELETE GENDER TEST PASSED")
+
+    if (response.status_code != 200):
+        print ("DELETE GENDER TEST NOT PASSED")    
+
