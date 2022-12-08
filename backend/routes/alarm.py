@@ -26,6 +26,6 @@ def delete_alarm(id: str):
 
 @alarm.put("/alarms/upate/{id}", response_model= Alarm, tags= ["Alarms"])
 def upate_alarm(id: str, alarm: Alarm):
-    result = conn.execute(alarms.upate().values(name= alarm.name,
+    result = conn.execute(alarms.update().values(name= alarm.name,
     active= alarm.active).where(alarms.c.id == id))
     return conn.execute(alarms.select().where(alarms.c.id == id)).first()

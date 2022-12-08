@@ -10,6 +10,9 @@ from routes.enclosure import enclosure
 
 from config.db import conn
 
+from tests.dinosaur_test import get_all_dinosaurs_test, create_dinosaur_test
+from tests.gender_test import get_all_genders_test, create_gender_test
+
 from models.gender import genders
 from models.species import species
 from models.truck import trucks
@@ -22,8 +25,8 @@ app = FastAPI(
     description= "This is the group 1 API",
     openapi_tags=[
         {
-        "name": "Dinosaurs",
-        "description": "These are the routes of the dinosaurs"
+            "name": "Dinosaurs",
+            "description": "These are the routes of the dinosaurs"
         },
         {
             "name" : "Enclosures",
@@ -52,10 +55,10 @@ origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
     
 )
 app.include_router(speciesAPI)
@@ -67,8 +70,14 @@ app.include_router(alarm)
 app.include_router(enclosure)
 app.include_router(dinosaur)
 
+
+
+
+
+
 @app.on_event("startup")
 def startup_seedData_db():
+    
     conn.execute(alarms.delete())
     conn.execute(enclosures.delete())
     conn.execute(dinosaurs.delete())
@@ -93,7 +102,7 @@ def startup_seedData_db():
     
     truck_Init = [
         {"id": "1", "onRute": True, "passengers": 4, "securitySystem": True},
-        {"id": "2", "onRute": False, "passengers": 0, "securitySystem": True},
+        {"id": "2", "onRute": False, "passengers": 0, "securitySystem": False},
         {"id": "3", "onRute": True, "passengers": 2, "securitySystem": True},
         {"id": "4", "onRute": True, "passengers": 3, "securitySystem": True},
     ]
@@ -137,6 +146,18 @@ def startup_seedData_db():
     conn.execute(alarms.insert().values(alarm_Init))
     conn.execute(enclosures.insert().values(enclosure_Init))
     conn.execute(dinosaurs.insert().values(dinosaur_Init))
+
+    get_all_dinosaurs_test()
+    create_dinosaur_test()
+    get_all_genders_test()
+    create_gender_test()
+
+
+
+    
+
+    
+
 
 
 
