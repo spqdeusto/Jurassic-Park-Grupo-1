@@ -10,8 +10,8 @@ from routes.enclosure import enclosure
 
 from config.db import conn
 
-from tests.dinosaur_test import get_all_dinosaurs_test, create_dinosaur_test, get_one_dinosaur_test
-from tests.gender_test import get_all_genders_test, create_gender_test, delete_gender_test, get_one_gender_test
+from tests.dinosaur_test import get_all_dinosaurs_test, create_dinosaur_test, get_one_dinosaur_test, delete_dinosaur_test
+from tests.gender_test import get_all_genders_test, create_gender_test, delete_gender_test, get_one_gender_test, change_gender_test
 from tests.species_test import get_all_species_test, create_species_test, get_one_specie_test
 from tests.enclosure_test import get_all_enclosures_test, create_enclosures_test, get_one_enclosure_test
 
@@ -152,11 +152,13 @@ def startup_seedData_db():
     get_all_dinosaurs_test()
     create_dinosaur_test()
     get_one_dinosaur_test()
+    delete_dinosaur_test()     
 
     get_all_genders_test()
     create_gender_test()
     delete_gender_test()
     get_one_gender_test()
+    change_gender_test()   
 
     get_all_species_test()
     create_species_test()   

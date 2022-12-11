@@ -43,6 +43,16 @@ def get_one_dinosaur_test():
     if (response.status_code != 200):
         print ("GET ONE DINOSAUR TEST NOT PASSED")
 
+def delete_dinosaur_test():
+    response = client.delete("/dinosaurs/3")  
+    if (response.status_code == 200):
+        assert response.status_code == 200
+        print ("DELETE DINOSAUR TEST PASSED")
+
+    if (response.status_code != 200):
+        print ("DELETE DINOSAUR TEST NOT PASSED") 
+        print (response.status_code)   
+
 
 
     

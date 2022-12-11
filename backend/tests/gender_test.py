@@ -48,3 +48,21 @@ def get_one_gender_test():
 
     if (response.status_code != 200):
         print ("GET ONE GENDER TEST NOT PASSED")               
+
+
+def change_gender_test():
+    response = client.post(
+        "/genders/3",
+        headers = {"Content-Type": "application/json"},
+        json = 
+        {
+            "name": "prueba2"
+        },
+    )
+    if (response.status_code == 200):
+        assert response.status_code == 200
+        print ("CHANGE GENDER TEST PASSED")
+
+    if (response.status_code != 200):
+        print ("CHANGE GENDER TEST NOT PASSED")
+        print (response.status_code)  
