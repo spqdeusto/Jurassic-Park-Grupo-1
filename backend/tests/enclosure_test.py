@@ -32,6 +32,15 @@ def create_enclosures_test():
         print ("CREATE ENCLOSURES TEST NOT PASSED")
 
 
+def get_one_enclosure_test():
+    response = client.get("/enclosures/2")
+    if (response.status_code == 200):
+        assert response.status_code == 200
+        print ("GET ONE ENCLOSURE TEST PASSED")
+
+    if (response.status_code != 200):
+        print ("GET ONE ENCLOSURE TEST NOT PASSED")
+
 
 
 

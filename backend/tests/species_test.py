@@ -32,3 +32,11 @@ def create_species_test():
         print ("CREATE SPECIES TEST NOT PASSED")
 
   
+def get_one_specie_test():
+    response = client.get("/species/2")
+    if (response.status_code == 200):
+        assert response.status_code == 200
+        print ("GET ONE SPECIE TEST PASSED")
+
+    if (response.status_code != 200):
+        print ("GET ONE SPECIE TEST NOT PASSED")

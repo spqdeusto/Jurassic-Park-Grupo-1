@@ -34,7 +34,14 @@ def create_dinosaur_test():
         print ("CREATE DINOSAUR TEST NOT PASSED")
 
 
+def get_one_dinosaur_test():
+    response = client.get("/dinosaurs/2")
+    if (response.status_code == 200):
+        assert response.status_code == 200
+        print ("GET ONE DINOSAUR TEST PASSED")
 
+    if (response.status_code != 200):
+        print ("GET ONE DINOSAUR TEST NOT PASSED")
 
 
 

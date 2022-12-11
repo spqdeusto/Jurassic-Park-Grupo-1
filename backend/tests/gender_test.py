@@ -31,12 +31,20 @@ def create_gender_test():
         print ("CREATE GENDER TEST NOT PASSED")
 
 def delete_gender_test():
-    id = "3",
-    response = client.delete("/genders/{id}", headers = {"Content-Type": "application/json"}, json={"validation_code": 789})
+    response = client.delete("/genders/3")  
     if (response.status_code == 200):
         assert response.status_code == 200
         print ("DELETE GENDER TEST PASSED")
 
     if (response.status_code != 200):
-        print ("DELETE GENDER TEST NOT PASSED")    
+        print ("DELETE GENDER TEST NOT PASSED") 
+        print (response.status_code)   
 
+def get_one_gender_test():
+    response = client.get("/genders/2")
+    if (response.status_code == 200):
+        assert response.status_code == 200
+        print ("GET ONE GENDER TEST PASSED")
+
+    if (response.status_code != 200):
+        print ("GET ONE GENDER TEST NOT PASSED")               
