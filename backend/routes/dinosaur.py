@@ -9,22 +9,22 @@ dinosaur = APIRouter()
 def get_dinosaurs():
     return conn.execute(dinosaurs.select()).fetchall()
 
-@dinosaur.post("/dinosaurs", response_model= Dinosaur, tags= ["Dinosaurs"])
+@dinosaur.post("/dinosaurs", response_model= Dinosaur, tags= ["Dinosaurs"], description="**Create** a dinosaur.")
 def create_dinosaur(dinosaur: Dinosaur):
     new_dinosaur = {"id": dinosaur.id, "name": dinosaur.name, "species": dinosaur.species, "age": dinosaur.age, "weight": dinosaur.weight, "gender": dinosaur.gender}
     result = conn.execute(dinosaurs.insert().values(new_dinosaur))
     return conn.execute(dinosaurs.select().where(dinosaurs.c.id == result.lastrowid)).first()
 
-@dinosaur.get("/dinosaurs/{id}", response_model= Dinosaur, tags= ["Dinosaurs"])
+@dinosaur.get("/dinosaurs/{id}", response_model= Dinosaur, tags= ["Dinosaurs"], description="**Return one** dinosaur with Id.")
 def get_dinosaur(id: str):
     return conn.execute(dinosaurs.select().where(dinosaurs.c.id == id)).first()
 
-@dinosaur.get("/dinosaurs/delete/{id}", response_model= str, tags= ["Dinosaurs"])
+@dinosaur.get("/dinosaurs/delete/{id}", response_model= str, tags= ["Dinosaurs"], description="**Delete one** dinosaur with Id.")
 def delete_dinosaur(id: str):
     result = conn.execute(dinosaurs.delete().where(dinosaurs.c.id == id))
     return ("deleted dinosaur with id = " + id)
 
-@dinosaur.put("/dinosaurs/update/{id}", response_model= Dinosaur, tags= ["Dinosaurs"])
+@dinosaur.put("/dinosaurs/update/{id}", response_model= Dinosaur, tags= ["Dinosaurs"], description="**Update** dinosaur with Id.")
 def update_dinosaur(id: str, dinosaur: Dinosaur):
     result = conn.execute(dinosaurs.update().values(name= dinosaur.name, 
     species= dinosaur.species, 

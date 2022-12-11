@@ -24,7 +24,32 @@ from models.dinosaur import dinosaurs
 
 app = FastAPI(
     title= "Jurassic Park API",
-    description= "This is the group 1 API",
+    description= """
+    This is the group 1 API. It helps you do awesome stuff.
+    
+    ##Items
+
+    The different items are **dinosaurs, alarms, enclousures, species, genders and trucks**.
+
+    ##Methods
+
+    You will be able to use the following methods in the previous items:
+
+    * **Get all**
+    * **Create**
+    * **Get one**
+    * **Delete one**
+    * **Update one**
+
+    """,
+    version="0.0.1",
+    contact={
+        "name":"Group 1: Rubén Claveras, Gorka Esteban, Lorea Intxausti",
+        "url": "https://github.com/spqdeusto/Jurassic-Park-Grupo-1/",
+        "email": "lorea.intxausti@opendeusto.es",
+        "email2": "rubenclaveras@opendeusto.es",
+        "email3": "estebanareizaga@opendeusto.es"
+    },
     openapi_tags=[
         {
             "name": "Dinosaurs",
@@ -167,12 +192,3 @@ def startup_seedData_db():
     get_all_enclosures_test() 
     create_enclosures_test() 
     get_one_enclosure_test()
-
-  
-    
-  
-    
-
-
-
-

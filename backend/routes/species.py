@@ -9,22 +9,22 @@ speciesAPI = APIRouter()
 def get_species():
     return conn.execute(species.select()).fetchall()
 
-@speciesAPI.post("/species", response_model= Species, tags= ["Species"])
+@speciesAPI.post("/species", response_model= Species, tags= ["Species"], description="**Create** an species.")
 def create_species(currentSpecies : Species):
     new_species = {"id": currentSpecies.id, "name": currentSpecies.name, "dangerousness": currentSpecies.dangerousness}
     result = conn.execute(species.insert().values(new_species))
     return conn.execute(species.select().where(species.c.id == result.lastrowid)).first()
 
-@speciesAPI.get("/species/{id}", response_model= Species, tags= ["Species"])
+@speciesAPI.get("/species/{id}", response_model= Species, tags= ["Species"], description="**Return one** species with Id.")
 def get_species(id: str):
     return conn.execute(species.select().where(species.c.id == id)).first()
 
-@speciesAPI.get("/species/delete/{id}", response_model= str, tags= ["Species"])
+@speciesAPI.get("/species/delete/{id}", response_model= str, tags= ["Species"], description="**Delete one** species with Id.")
 def delete_species(id: str):
     result = conn.execute(species.delete().where(species.c.id == id))
     return ("deleted species with id = " + id)
 
-@speciesAPI.put("/species/update/{id}", response_model= Species, tags= ["Species"])
+@speciesAPI.put("/species/update/{id}", response_model= Species, tags= ["Species"], description="**Update** species with Id.")
 def update_species(id: str, currentSpecies : Species):
     result = conn.execute(species.update().values(name= currentSpecies.name, 
     dangerousness= currentSpecies.dangerousness).where(species.c.id == id))
