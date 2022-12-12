@@ -10,10 +10,7 @@ from routes.enclosure import enclosure
 
 from config.db import conn
 
-from tests.dinosaur_test import get_all_dinosaurs_test, create_dinosaur_test, get_one_dinosaur_test, delete_dinosaur_test
-from tests.gender_test import get_all_genders_test, create_gender_test, delete_gender_test, get_one_gender_test, change_gender_test
-from tests.species_test import get_all_species_test, create_species_test, get_one_specie_test
-from tests.enclosure_test import get_all_enclosures_test, create_enclosures_test, get_one_enclosure_test
+from tests.execute_tests import execute_all_test
 
 from models.gender import genders
 from models.species import species
@@ -97,11 +94,6 @@ app.include_router(alarm)
 app.include_router(enclosure)
 app.include_router(dinosaur)
 
-
-
-
-
-
 @app.on_event("startup")
 def startup_seedData_db():
     
@@ -135,19 +127,19 @@ def startup_seedData_db():
     ]
 
     alarm_Init = [
-        {"id": "1", "name": "Maximun Alert", "active": True},
+        {"id": "1", "name": "Maximun Alert", "active": False},
         {"id": "2", "name": "Medium Alert", "active": False},
         {"id": "3", "name": "Low Alert", "active": False},
-        {"id": "4", "name": "Normality", "active": False},
+        {"id": "4", "name": "Normality", "active": True},
     ]
    
     enclosure_Init = [ 
-        {"id": "1", "name": "Dilophosaurus Enclosure", "species": 1, "electricity": False},
+        {"id": "1", "name": "Dilophosaurus Enclosure", "species": 1, "electricity": True},
         {"id": "2", "name": "T-Rex Enclosure", "species": 2, "electricity": True},
         {"id": "3", "name": "Velociraptor Enclosure", "species": 3, "electricity": True},
         {"id": "4", "name": "Brachiosaurus and Parasaulophus Enclosure", "species": 4, "electricity": True},
         {"id": "5", "name": "Galliminus Enclosure", "species": 6, "electricity": True},
-        {"id": "6", "name": "Triceratops Enclosure", "species": 7, "electricity": False},
+        {"id": "6", "name": "Triceratops Enclosure", "species": 7, "electricity": True},
     ]
 
     dinosaur_Init = [
@@ -173,22 +165,5 @@ def startup_seedData_db():
     conn.execute(alarms.insert().values(alarm_Init))
     conn.execute(enclosures.insert().values(enclosure_Init))
     conn.execute(dinosaurs.insert().values(dinosaur_Init))
-
-    get_all_dinosaurs_test()
-    create_dinosaur_test()
-    get_one_dinosaur_test()
-    delete_dinosaur_test()     
-
-    get_all_genders_test()
-    create_gender_test()
-    delete_gender_test()
-    get_one_gender_test()
-    change_gender_test()   
-
-    get_all_species_test()
-    create_species_test()   
-    get_one_specie_test()
-
-    get_all_enclosures_test() 
-    create_enclosures_test() 
-    get_one_enclosure_test()
+    
+    execute_all_test()

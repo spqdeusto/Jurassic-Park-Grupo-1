@@ -3,6 +3,8 @@ from config.db import conn
 from models.truck import trucks
 from schemas.truck_schema import Truck
 
+from routes.alarm import updateAlarmState
+
 truck = APIRouter()
 
 @truck.get("/trucks", response_model= list[Truck], tags= ["Trucks"], description= "Return all the trucks")
@@ -30,4 +32,5 @@ def update_truck(id: str, truck: Truck):
     onRute= truck.onRute, 
     passengers= truck.passengers, 
     securitySystem= truck.securitySystem).where(trucks.c.id == id))
+    updateAlarmState()
     return conn.execute(trucks.select().where(trucks.c.id == id)).first()

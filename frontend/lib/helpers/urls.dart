@@ -54,6 +54,14 @@ Uri updateEnclosure(String id) {
   return (updateEnclosure);
 }
 
+/// Crea la URI al endpoint de update truck
+///
+/// Retorna la URI correspondiente [updateTruck]
+Uri updateTruckUri(String id) {
+  Uri updateTruck = Uri.http('127.0.0.1:8000', '/trucks/update/$id');
+  return (updateTruck);
+}
+
 /// Crea la URI al endpoint de create dinosaur
 ///
 /// Retorna la URI correspondiente [createDinosaur]

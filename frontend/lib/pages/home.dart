@@ -38,7 +38,7 @@ class _HomeState extends State<Home> {
 
   /// Actualiza la seguridad de las alarmas
   ///
-  /// Llama al método de helpers/methods deactivateEnclosureElectricity, al que le pasa el recinto al que estamos activando o desactivando la seguridad [enclosure]. Después llama al método de helpers/methods obtainUpdatedData para actualizar la información de las alarmas. Cada método retorna true si es exitoso y falso si se produce un error. En caso de que ambos sean exitosos retorna true, en caso contrario, false.
+  /// Llama al método deactivateEnclosureElectricity, al que le pasa el recinto al que estamos activando o desactivando la seguridad [enclosure]. Después llama al método obtainUpdatedData para actualizar la información de las alarmas, enclosures y trucks. Cada método retorna true si es exitoso y falso si se produce un error. En caso de que ambos sean exitosos retorna true, en caso contrario, false.
   Future<bool> updateSecurity(Enclosure enclosure) async {
     bool deactivatedSuccess = await deactivateEnclosureElectricity(enclosure);
     bool obtainedDataSuccess = await obtainUpdatedData();
@@ -89,6 +89,48 @@ class _HomeState extends State<Home> {
     widget.trucks = await futureTrucks;
 
     return true;
+  }
+
+  /// Actualiza el onRute de un Truck
+  ///
+  /// Llama al método updateTruck, al que le pasa el truck al que estamos activando o desactivando el campo onRute [truck]. Después llama al método obtainUpdatedData para actualizar la información de las alarmas, trucks y enclosures. Cada método retorna true si es exitoso y falso si se produce un error. En caso de que ambos sean exitosos retorna true, en caso contrario, false.
+  Future<bool> updateTruck(Truck truck) async {
+    bool updateTruck = await changeTruckOnRoute(truck);
+    bool obtainedDataSuccess = await obtainUpdatedData();
+
+    setState(() {});
+
+    return (updateTruck && obtainedDataSuccess);
+  }
+
+  /// Método que desactiva o activa la seguridad de un recinto
+  ///
+  /// Recibe el recinto a modificar [enclosure] y se crea un cuerpo json con los campos de [enclosure], pero cambiando la seguridad (si era true pasa a false y viceversa). Llama al endpoint de update de un recinto, utilizando la URI de helpers/urls updateEnclosure, que contiene la URI correspondiente, a la que le añadimos el id del enclosure a modificar. En el backend, esto actualiza los datos del recinto, además de modificar el estado de las alarmas y el piloto automático de las furgonetas. Retorna true si el codigo de respuesta es exitoso (200) y false en caso contrario
+  Future<bool> changeTruckOnRoute(Truck truck) async {
+    // Si cambiamos el onRute de un truck para ponerlo a false, cambiamos su número de pasajeros a 0. Si cambiamos el de uno a true, ponemos a 4 sus pasajeros.
+    int passengers = 0;
+    if (!truck.onRute) passengers = 4;
+    Client client = http.Client();
+    var bodyEncoded = jsonEncode({
+      "id": truck.id.toString(),
+      "onRute": (!truck.onRute).toString(),
+      "passengers": passengers.toString(),
+      "securitySystem": truck.securitySystem.toString()
+    });
+
+    var response = await client.put(updateTruckUri(truck.id.toString()),
+        headers: {"Content-Type": "application/json"}, body: bodyEncoded);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        widget
+            .trucks[
+                widget.trucks.indexWhere((element) => element.id == truck.id)]
+            .onRute = !truck.onRute;
+      });
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -263,22 +305,34 @@ class _HomeState extends State<Home> {
                                               message: truck.onRute
                                                   ? 'Truck on route'
                                                   : 'Truck not on route',
-                                              child: Opacity(
-                                                opacity: truck.onRute ? 1 : 0.6,
-                                                child: Image.asset(
-                                                    "icons/truck.png",
-                                                    height:
-                                                        MediaQuery.of(context)
+                                              child: MouseRegion(
+                                                cursor:
+                                                    SystemMouseCursors.click,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      updateTruck(truck);
+                                                    });
+                                                  },
+                                                  child: Opacity(
+                                                    opacity:
+                                                        truck.onRute ? 1 : 0.6,
+                                                    child: Image.asset(
+                                                        "icons/truck.png",
+                                                        height: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .width /
                                                             2000 *
                                                             64,
-                                                    width:
-                                                        MediaQuery.of(context)
+                                                        width: MediaQuery.of(
+                                                                    context)
                                                                 .size
                                                                 .width /
                                                             2000 *
                                                             64),
+                                                  ),
+                                                ),
                                               ),
                                             )),
                                         title: Opacity(
