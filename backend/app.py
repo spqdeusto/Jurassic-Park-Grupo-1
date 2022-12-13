@@ -24,19 +24,19 @@ app = FastAPI(
     description= """
     This is the group 1 API. It helps you do awesome stuff.
     
-    ##Items
+    Items
 
-    The different items are **dinosaurs, alarms, enclousures, species, genders and trucks**.
+    The different items are: dinosaurs, alarms, enclousures, species, genders and trucks.
 
-    ##Methods
+    Methods
 
     You will be able to use the following methods in the previous items:
 
-    * **Get all**
-    * **Create**
-    * **Get one**
-    * **Delete one**
-    * **Update one**
+    *Get all
+    *Create
+    *Get one
+    *Delete one
+    *Update one
 
     """,
     version="0.0.1",
