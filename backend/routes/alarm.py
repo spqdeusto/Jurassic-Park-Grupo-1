@@ -13,26 +13,26 @@ from schemas.alarm_schema import Alarm
 
 alarm = APIRouter()
 
-@alarm.get("/alarms", response_model= list[Alarm], tags= ["Alarms"], description= "**Return all** the alarms.")
+@alarm.get("/alarms", response_model= list[Alarm], tags= ["Alarms"], description= "**Return all** the alarms.", response_description="All the alarms")
 def get_alarms():
     return conn.execute(alarms.select()).fetchall()
 
-@alarm.post("/alarms", response_model= Alarm, tags= ["Alarms"], description="**Create** an alarm.")
+@alarm.post("/alarms", response_model= Alarm, tags= ["Alarms"], description="**Create** an alarm.", response_description="Created alarm")
 def create_alarm(alarm: Alarm):
     new_alarm = {"id": alarm.id, "name": alarm.name, "active": alarm.active}
     result = conn.execute(alarms.insert().values(new_alarm))
     return conn.execute(alarms.select().where(alarms.c.id == result.lastrowid)).first()
 
-@alarm.get("/alarms/{id}", response_model= Alarm, tags= ["Alarms"], description="**Return one** alarm with Id.")
+@alarm.get("/alarms/{id}", response_model= Alarm, tags= ["Alarms"], description="**Return one** alarm with Id.", response_description="Alarm with given Id")
 def get_alarm(id: str):
     return conn.execute(alarms.select().where(alarms.c.id == id)).first()
 
-@alarm.get("/alarms/delete/{id}", response_model= str, tags= ["Alarms"], description="**Delete one** alarm with Id.")
+@alarm.get("/alarms/delete/{id}", response_model= str, tags= ["Alarms"], description="**Delete one** alarm with Id.", response_description="String with message: delated alarm and Id")
 def delete_alarm(id: str):
     result = conn.execute(alarms.delete().where(alarms.c.id == id))
     return ("deleted alarm with id = " + id)
 
-@alarm.put("/alarms/update/{id}", response_model= Alarm, tags= ["Alarms"], description="**Update** alarm with Id.")
+@alarm.put("/alarms/update/{id}", response_model= Alarm, tags= ["Alarms"], description="**Update** alarm with Id", response_description="Updated alarm")
 def update_alarm(id: str, alarm: Alarm):
     result = conn.execute(alarms.update().values(name= alarm.name,
     active= alarm.active).where(alarms.c.id == id))
