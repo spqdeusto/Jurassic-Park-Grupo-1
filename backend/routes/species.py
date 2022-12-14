@@ -15,7 +15,7 @@ def create_species(currentSpecies : Species):
     result = conn.execute(species.insert().values(new_species))
     return conn.execute(species.select().where(species.c.id == result.lastrowid)).first()
 
-@speciesAPI.get("/species/{id}", response_model= Species, tags= ["Species"], description="**Return one** species with Id.", response_description="Species with give Id")
+@speciesAPI.get("/species/{id}", response_model= Species, tags= ["Species"], description="**Return one** species with Id.", response_description="Species with given Id")
 def get_species(id: str):
     return conn.execute(species.select().where(species.c.id == id)).first()
 

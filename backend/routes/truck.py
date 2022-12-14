@@ -17,7 +17,7 @@ def create_truck(truck: Truck):
     result = conn.execute(trucks.insert().values(new_truck))
     return conn.execute(trucks.select().where(trucks.c.id == result.lastrowid)).first()
 
-@truck.get("/trucks/{id}", response_model= Truck, tags= ["Trucks"], description="**Return one** truck with Id.", response_description="Truck with give Id")
+@truck.get("/trucks/{id}", response_model= Truck, tags= ["Trucks"], description="**Return one** truck with Id.", response_description="Truck with given Id")
 def get_truck(id: str):
     return conn.execute(trucks.select().where(trucks.c.id == id)).first()
 

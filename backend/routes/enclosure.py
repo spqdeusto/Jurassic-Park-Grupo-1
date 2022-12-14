@@ -19,7 +19,7 @@ def create_enclosure(enclosure : Enclosure):
     result = conn.execute(enclosures.insert().values(new_enclosure))
     return conn.execute(enclosures.select().where(enclosures.c.id == result.lastrowid)).first()
 
-@enclosure.get("/enclosures/{id}", response_model= Enclosure, tags= ["Enclosures"], description="**Return one** enclosure with Id.", response_description="Enclosure with give Id")
+@enclosure.get("/enclosures/{id}", response_model= Enclosure, tags= ["Enclosures"], description="**Return one** enclosure with Id.", response_description="Enclosure with given Id")
 def get_enclosure(id: str):
     return conn.execute(enclosures.select().where(enclosures.c.id == id)).first()
 

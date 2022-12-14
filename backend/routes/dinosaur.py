@@ -15,7 +15,7 @@ def create_dinosaur(dinosaur: Dinosaur):
     result = conn.execute(dinosaurs.insert().values(new_dinosaur))
     return conn.execute(dinosaurs.select().where(dinosaurs.c.id == result.lastrowid)).first()
 
-@dinosaur.get("/dinosaurs/{id}", response_model= Dinosaur, tags= ["Dinosaurs"], description="**Return one** dinosaur with Id.", response_description="Dinosaur with give Id")
+@dinosaur.get("/dinosaurs/{id}", response_model= Dinosaur, tags= ["Dinosaurs"], description="**Return one** dinosaur with Id.", response_description="Dinosaur with given Id")
 def get_dinosaur(id: str):
     return conn.execute(dinosaurs.select().where(dinosaurs.c.id == id)).first()
 

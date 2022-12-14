@@ -15,7 +15,7 @@ def create_gender(gender: Gender):
     result = conn.execute(genders.insert().values(new_gender))
     return conn.execute(genders.select().where(genders.c.id == result.lastrowid)).first()
 
-@gender.get("/genders/{id}", response_model= Gender, tags= ["Genders"], description="**Return one** gender with Id.", response_description="Gender with give Id")
+@gender.get("/genders/{id}", response_model= Gender, tags= ["Genders"], description="**Return one** gender with Id.", response_description="Gender with given Id")
 def get_gender(id: str):
     return conn.execute(genders.select().where(genders.c.id == id)).first()
 
