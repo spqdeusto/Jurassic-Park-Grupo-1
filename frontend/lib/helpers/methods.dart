@@ -149,8 +149,8 @@ Future<List<Truck>> getTrucks() async {
 
 /// Crea un dinosaurio
 ///
-/// Se nos pasa como parametro el dinosaurio a crear [dinosaur]. Sus campos se crean en un body json. Después llamamos al endpoint gracias a la URI createDinosaurUri de helpers/urls. Retorna true si la operación se completa exitosamente (codigo de respuesta == 200) y false en caso contrario.
-Future<bool> createDinosaur(Dinosaur dinosaur) async {
+/// Se nos pasa como parametro el dinosaurio a crear [dinosaur]. Sus campos se crean en un body json. Después llamamos al endpoint gracias a la URI createDinosaurUri de helpers/urls. Retorna el ID del dinosaurio creado si la acción se completa correctamente (status code == 200), y 0 en caso contrario (ya que los ids empiezan en 1, no existe el ID 0. Si se retorna este valor, sabremos que se ha producido un error y no realizaremos la acción).
+Future<int> createDinosaur(Dinosaur dinosaur) async {
   Client client = http.Client();
   var bodyEncoded = jsonEncode({
     "name": dinosaur.name,
@@ -164,9 +164,10 @@ Future<bool> createDinosaur(Dinosaur dinosaur) async {
       headers: {"Content-Type": "application/json"}, body: bodyEncoded);
 
   if (response.statusCode == 200) {
-    return true;
+    int id = int.parse(json.decode((response).body)['id']);
+    return id;
   }
-  return false;
+  return 0;
 }
 
 ///Modifica un dinosaurio

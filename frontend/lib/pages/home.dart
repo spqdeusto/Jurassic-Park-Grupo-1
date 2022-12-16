@@ -841,10 +841,11 @@ class _HomeState extends State<Home> {
                       int.parse(ageController.text),
                       double.parse(weightController.text),
                       selectedGender!);
-                  bool success = await createDinosaur(newDinosaur);
+                  int newID = await createDinosaur(newDinosaur);
 
                   setState(() {
-                    if (success) {
+                    if (newID != 0) {
+                      newDinosaur.id = newID;
                       widget.dinosaurs.add(newDinosaur);
                     }
                   });
