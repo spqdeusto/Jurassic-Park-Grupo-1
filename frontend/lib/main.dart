@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/home.dart';
 import 'package:frontend/pages/loadingPage.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'helpers/methods.dart';
-import 'models/dinosaur.dart';
-import 'models/gender.dart';
-import 'models/species.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Jurassic Park',
-      theme: ThemeData(primarySwatch: Colors.green),
+      theme: ThemeData(primarySwatch: Colors.blue),
       home: const MyHomePage(title: 'Jurassic Park'),
       debugShowCheckedModeBanner: false,
     );

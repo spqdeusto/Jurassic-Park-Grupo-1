@@ -10,6 +10,8 @@ from routes.enclosure import enclosure
 
 from config.db import conn
 
+from tests.execute_tests import execute_all_test
+
 from models.gender import genders
 from models.species import species
 from models.truck import trucks
@@ -19,11 +21,36 @@ from models.dinosaur import dinosaurs
 
 app = FastAPI(
     title= "Jurassic Park API",
-    description= "This is the group 1 API",
+    description= """
+    This is the group 1 API. It helps you do awesome stuff.
+    
+    Items
+
+    The different items are: dinosaurs, alarms, enclousures, species, genders and trucks.
+
+    Methods
+
+    You will be able to use the following methods in the previous items:
+
+    *Get all
+    *Create
+    *Get one
+    *Delete one
+    *Update one
+
+    """,
+    version="0.0.1",
+    contact={
+        "name":"Group 1: Rubén Claveras, Gorka Esteban, Lorea Intxausti",
+        "url": "https://github.com/spqdeusto/Jurassic-Park-Grupo-1/",
+        "email": "lorea.intxausti@opendeusto.es",
+        "email2": "rubenclaveras@opendeusto.es",
+        "email3": "estebanareizaga@opendeusto.es"
+    },
     openapi_tags=[
         {
-        "name": "Dinosaurs",
-        "description": "These are the routes of the dinosaurs"
+            "name": "Dinosaurs",
+            "description": "These are the routes of the dinosaurs"
         },
         {
             "name" : "Enclosures",
@@ -52,10 +79,10 @@ origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
     
 )
 app.include_router(speciesAPI)
@@ -69,6 +96,7 @@ app.include_router(dinosaur)
 
 @app.on_event("startup")
 def startup_seedData_db():
+    
     conn.execute(alarms.delete())
     conn.execute(enclosures.delete())
     conn.execute(dinosaurs.delete())
@@ -93,25 +121,25 @@ def startup_seedData_db():
     
     truck_Init = [
         {"id": "1", "onRute": True, "passengers": 4, "securitySystem": True},
-        {"id": "2", "onRute": False, "passengers": 0, "securitySystem": True},
+        {"id": "2", "onRute": False, "passengers": 0, "securitySystem": False},
         {"id": "3", "onRute": True, "passengers": 2, "securitySystem": True},
         {"id": "4", "onRute": True, "passengers": 3, "securitySystem": True},
     ]
 
     alarm_Init = [
-        {"id": "1", "name": "Maximun Alert", "active": True},
+        {"id": "1", "name": "Maximun Alert", "active": False},
         {"id": "2", "name": "Medium Alert", "active": False},
         {"id": "3", "name": "Low Alert", "active": False},
-        {"id": "4", "name": "Normality", "active": False},
+        {"id": "4", "name": "Normality", "active": True},
     ]
    
     enclosure_Init = [ 
-        {"id": "1", "name": "Dilophosaurus Enclosure", "species": 1, "electricity": False},
+        {"id": "1", "name": "Dilophosaurus Enclosure", "species": 1, "electricity": True},
         {"id": "2", "name": "T-Rex Enclosure", "species": 2, "electricity": True},
         {"id": "3", "name": "Velociraptor Enclosure", "species": 3, "electricity": True},
         {"id": "4", "name": "Brachiosaurus and Parasaulophus Enclosure", "species": 4, "electricity": True},
         {"id": "5", "name": "Galliminus Enclosure", "species": 6, "electricity": True},
-        {"id": "6", "name": "Triceratops Enclosure", "species": 7, "electricity": False},
+        {"id": "6", "name": "Triceratops Enclosure", "species": 7, "electricity": True},
     ]
 
     dinosaur_Init = [
@@ -137,6 +165,5 @@ def startup_seedData_db():
     conn.execute(alarms.insert().values(alarm_Init))
     conn.execute(enclosures.insert().values(enclosure_Init))
     conn.execute(dinosaurs.insert().values(dinosaur_Init))
-
-
-
+    
+    execute_all_test()
